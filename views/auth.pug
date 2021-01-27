@@ -1,0 +1,20 @@
+extends layout
+
+block content
+  h1 Аутентификация
+  p Страница аутентификации
+
+  form(action="", method="get")
+    p
+      label
+        span Логин
+        input(type="text", name="username")
+    P
+      label
+        span Пароль
+        input(type="text", name="password")
+
+    button(type="submit") Войти
+
+
+
