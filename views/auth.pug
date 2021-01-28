@@ -2,16 +2,27 @@ extends layout
 
 block content
   h1 Аутентификация
-  p Страница аутентификации
+  p Страница аутентификации #{views}
 
-  form(action="", method="get")
-    p
-      label
-        span Логин
-        input(type="text", name="username")
-    p
-      label
-        span Пароль
-        input(type="text", name="password")
+  if user
+    form(action="", method="post")
+      p Пользователь: #{user.name}
+      input(type="hidden", name="logout" value="1")
+      button(type="submit") Выйти
 
-    button(type="submit") Войти
+  else
+    form(action="", method="post")
+      p
+        label
+          span Логин
+          input(type="text", name="username")
+      p
+        label
+          span Пароль
+          input(type="password", name="password")
+      p
+        label
+          input(type="checkbox", name="reg", value="reg")
+          span Регистрация
+
+      button(type="submit") Войти
