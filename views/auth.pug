@@ -2,7 +2,15 @@ extends layout
 
 block content
   h1 Аутентификация
-  p Страница аутентификации #{views}
+  p Страница аутентификации
+
+  div(style="border: 1px solid green;")
+    script(src="https://vk.com/js/api/openapi.js?168")
+    script VK.init({apiId: 7741903})
+
+    // VK Widget
+    #vk_auth
+    script VK.Widgets.Auth("vk_auth", {})
 
   if user
     form(action="", method="post")
