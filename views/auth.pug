@@ -10,7 +10,7 @@ block content
 
     // VK Widget
     #vk_auth
-    script VK.Widgets.Auth("vk_auth", {})
+    script VK.Widgets.Auth("vk_auth", {onAuth: function (params) {console.log(params);}})
 
   if user
     form(action="", method="post")
