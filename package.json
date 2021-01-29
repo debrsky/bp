@@ -7,6 +7,9 @@
     "dev": "node ./node_modules/nodemon/bin/nodemon ./bin/www",
     "test": "node ./node_modules/eslint/bin/eslint.js . & node ./node_modules/pug-lint/bin/pug-lint ."
   },
+  "engines" : {
+    "node" : "^14.15.1"
+  },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
