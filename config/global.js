@@ -4,6 +4,11 @@ module.exports = {
     secret: process.env.SESSION_SECRET
   },
   auth: {
+    pbkdf2: {
+      iterations: 100000,
+      keyLen: 20,
+      digest: 'sha512'
+    },
     vk: {
       client_id: 7741903,
       client_secret: process.env.VK_CLIENT_SECRET,
