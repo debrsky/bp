@@ -44,7 +44,7 @@ app.use(session({
   cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
   ttl: 3600,
   reapInterval: 3600,
-  retries: 1,
+  retries: 5,
   name: config.session.name
 }));
 
