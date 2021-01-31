@@ -1,4 +1,5 @@
 const config = require('./config');
+const users = require('./lib/users');
 
 const createError = require('http-errors');
 const express = require('express');
@@ -6,8 +7,7 @@ const responseTime = require('response-time');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-// const FileStore = require('session-file-store')(session);
-const MemoryStore = require('memorystore')(session);
+const FileStore = require('session-file-store')(session);
 const logger = require('morgan');
 
 const indexRouter = require('./routes/index');
@@ -37,8 +37,7 @@ if (!secret) {
 }
 
 app.use(session({
-  // store: new FileStore({ path: 'storage/sessions' }),
-  store: new MemoryStore({ checkPeriod: 24 * 60 * 60 * 1000 }),
+  store: new FileStore({ path: 'storage/sessions' }),
   secret,
   resave: true,
   saveUninitialized: false,
@@ -49,18 +48,21 @@ app.use(session({
   name: config.session.name
 }));
 
-app.use(function (req, res, next) {
-  if (req.session.username) {
+// загрузка пользователя
+app.use(async function (req, res, next) {
+  try {
     let user;
-    if (req.session.isVk) {
-      user = { name: req.session.username, isVk: true };
-    } else {
-      user = { name: 'req.session.username' };// await auth.findUser(req.session.username);
+    if (req.session.userId) {
+      user = await users.findUser({ id: req.session.userId });
     }
-    res.user = user;
-    res.locals.user = user;
+    if (user) {
+      res.user = user;
+      res.locals.user = user;
+    }
+    next();
+  } catch (err) {
+    next(err);
   }
-  next();
 });
 
 app.use('/', indexRouter);

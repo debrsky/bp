@@ -4,5 +4,14 @@ block content
   h1 Профиль пользователя
   if user
     p имя пользователя: #{user.name}
+    -var vk=user.OAuth?.vk
+    if vk
+      article
+        h2 Данные ВКонтакте
+        img(src=vk.photoUri, alt=user.name)
+        p Фамилия: #{vk.first_name}
+        p Имя: #{vk.last_name}
+        p email: #{vk.email}
+        pre #{JSON.stringify(vk, null, 4)}
   else
     p пользователь не обнаружен
