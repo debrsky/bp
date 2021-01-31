@@ -1,0 +1,9 @@
+.user
+  if user
+    span.user__name #{user.name}
+    a(href="/auth/logout") Выйти
+  else
+    if page==="auth"
+      a Войти
+    else
+      a(href="/auth") Войти

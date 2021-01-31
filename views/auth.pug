@@ -1,42 +1,29 @@
-extends layout
+extends common/layout
 
 block content
   h1 Аутентификация
   p Страница аутентификации
 
   if user
-    form(action="", method="post")
+    form(action="/auth/logout", method="get")
       p Пользователь: #{user.name}
-      input(type="hidden", name="logout" value="1")
       button(type="submit") Выйти
   else
     ul
       li
-        a(href="#") Через ВКонтакте
+        a(href=vk).
+          Через ВКонтакте
       li
-        a(href="#") Через Яндекс
+        a() Через Яндекс
       li
-        a(href="#") Через Mail.ru
+        a() Через Mail.ru
       li
-        a(href="#") Через Google
-
-    div(style="border: 1px solid green; margin: 5px; padding: 5px;")
-      script(src="https://vk.com/js/api/openapi.js?168")
-      script VK.init({apiId: 7741903})
-
-      // VK Widget
-      #vk_auth
-      script.
-        VK.Widgets.Auth("vk_auth", {
-          onAuth: function (params) {
-            console.log(params);
-          }
-        });
+        a() Через Google
 
     form(action="", method="post")
       p
         label
-          span Логин
+          span email
           input(type="text", name="username")
       p
         label

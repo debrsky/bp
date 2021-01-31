@@ -1,0 +1,12 @@
+nav.menu
+  ul.menu__list
+    li.menu__list-item
+      if page==="home"
+        a Главная
+      else
+        a(href="/") Главная
+    li.menu__list-item
+      if page==="profile"
+        a Профиль пользователя
+      else
+        a(href="/profile") Профиль пользователя

@@ -1,8 +1,33 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+:root {
+  box-sizing: border-box;
 }
 
-a {
-  color: #00B7FF;
+*, ::before, ::after {
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+}
+
+.header__user {
+  margin-left: auto;
+}
+
+.menu__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  display: flex;
+}
+
+.menu__list-item {
+  padding: 5px;
+}
+
+.user {
+  padding: 5px;
+}
+.user__name {
+  margin-right: 5px;
 }

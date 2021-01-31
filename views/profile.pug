@@ -1,0 +1,8 @@
+extends common/layout
+
+block content
+  h1 Профиль пользователя
+  if user
+    p имя пользователя: #{user.name}
+  else
+    p пользователь не обнаружен
