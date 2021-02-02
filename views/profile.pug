@@ -12,6 +12,15 @@ block content
         p Фамилия: #{vk.first_name}
         p Имя: #{vk.last_name}
         p email: #{vk.email}
-        pre #{JSON.stringify(vk, null, 4)}
+    -var ya=user.OAuth?.ya
+    if ya
+      article
+        h2 Данные Yandex
+        img(src="https://avatars.yandex.net/get-yapic/" + ya.default_avatar_id + "/islands-200", alt=user.name)
+        p Фамилия: #{ya.first_name}
+        p Имя: #{ya.last_name}
+        p email: #{ya.default_email}
+    pre #{JSON.stringify(user, null, 4)}
+
   else
     p пользователь не обнаружен
