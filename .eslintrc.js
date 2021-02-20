@@ -4,11 +4,12 @@ module.exports = {
     es2021: true,
     node: true
   },
-  plugins: ['sonarjs', 'prettier'],
+  plugins: ['sonarjs', 'prettier', 'json'],
   extends: [
     // 'eslint:recommended',
     'semistandard',
     'plugin:sonarjs/recommended',
+    'plugin:json/recommended',
     'plugin:prettier/recommended'
   ],
   parserOptions: {
@@ -16,3 +17,5 @@ module.exports = {
   },
   rules: {}
 };
+
+// TODO разобраться, почему в VSCODE не работает автоформатирование json-файлов.

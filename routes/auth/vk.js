@@ -42,7 +42,12 @@ router.get('/', async function (req, res, next) {
       return res.status(response.status).send(response.statusText);
     }
     answer = await response.json();
-    const { first_name, last_name, bdate, photo_200: photoUri } = answer.response[0];
+    const {
+      first_name,
+      last_name,
+      bdate,
+      photo_200: photoUri
+    } = answer.response[0];
 
     const user = {
       name: `${first_name} ${last_name}`,

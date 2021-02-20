@@ -23,32 +23,36 @@ router.get('/logout', function (req, res, next) {
 router.get('/', async function (req, res, next) {
   try {
     // VK
-    const vkURI = 'https://oauth.vk.com/authorize?' + (() => {
-      const { client_id, redirect_uri } = config.auth.vk; // eslint-disable-line camelcase
-      const query = {
-        client_id,
-        display: 'page',
-        scope: 'email,photos',
-        response_type: 'code',
-        redirect_uri,
-        state: ''
-      };
-      return querystring.stringify(query);
-    })();
+    const vkURI =
+      'https://oauth.vk.com/authorize?' +
+      (() => {
+        const { client_id, redirect_uri } = config.auth.vk; // eslint-disable-line camelcase
+        const query = {
+          client_id,
+          display: 'page',
+          scope: 'email,photos',
+          response_type: 'code',
+          redirect_uri,
+          state: ''
+        };
+        return querystring.stringify(query);
+      })();
 
     // Yandex
-    const yaURI = 'https://oauth.yandex.ru/authorize?' + (() => {
-      const { client_id, redirect_uri } = config.auth.ya; // eslint-disable-line camelcase
-      const query = {
-        client_id,
-        response_type: 'code',
-        scope: 'login:email login:info login:birthday login:avatar',
-        redirect_uri,
-        force_confirm: true,
-        state: 'state string'
-      };
-      return querystring.stringify(query);
-    })();
+    const yaURI =
+      'https://oauth.yandex.ru/authorize?' +
+      (() => {
+        const { client_id, redirect_uri } = config.auth.ya; // eslint-disable-line camelcase
+        const query = {
+          client_id,
+          response_type: 'code',
+          scope: 'login:email login:info login:birthday login:avatar',
+          redirect_uri,
+          force_confirm: true,
+          state: 'state string'
+        };
+        return querystring.stringify(query);
+      })();
 
     res.render('auth', { title: 'Express', vkURI, yaURI, page: 'auth' });
   } catch (err) {
@@ -68,7 +72,7 @@ router.post('/', async function (req, res, next) {
     }
 
     user = await users.findUser(user);
-    if (!user || await users.calcKey(password, user.salt) !== user.key) {
+    if (!user || (await users.calcKey(password, user.salt)) !== user.key) {
       return res.sendStatus(401);
     }
 

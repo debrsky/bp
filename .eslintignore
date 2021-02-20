@@ -6,3 +6,6 @@ build/*
 
 # почему-то игнорируется по умолчанию.
 !.pug-lintrc.js
+!.prettierrc.js
+!nodemon.json
+!package.json

@@ -36,17 +36,19 @@ if (!secret) {
   process.exit(1);
 }
 
-app.use(session({
-  store: new FileStore({ path: 'storage/sessions' }),
-  secret,
-  resave: true,
-  saveUninitialized: false,
-  cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
-  ttl: 3600,
-  reapInterval: 3600,
-  retries: 5,
-  name: config.session.name
-}));
+app.use(
+  session({
+    store: new FileStore({ path: 'storage/sessions' }),
+    secret,
+    resave: true,
+    saveUninitialized: false,
+    cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
+    ttl: 3600,
+    reapInterval: 3600,
+    retries: 5,
+    name: config.session.name
+  })
+);
 
 // загрузка пользователя
 app.use(async function (req, res, next) {

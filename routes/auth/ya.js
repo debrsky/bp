@@ -23,9 +23,14 @@ router.get('/', async function (req, res, next) {
       method: 'POST',
       headers: {
         'Content-type': 'application/x-www-form-urlencoded',
-        Authorization: `Basic ${Buffer.from(`${client_id}:${client_secret}`).toString('base64')}`
+        Authorization: `Basic ${Buffer.from(
+          `${client_id}:${client_secret}`
+        ).toString('base64')}`
       },
-      body: new URLSearchParams({ grant_type: 'authorization_code', code }).toString()
+      body: new URLSearchParams({
+        grant_type: 'authorization_code',
+        code
+      }).toString()
     });
     if (!response.ok) {
       return res.status(response.status).send(response.statusText);
@@ -44,13 +49,25 @@ router.get('/', async function (req, res, next) {
       return res.status(response.status).send(response.statusText);
     }
     answer = await response.json();
-    const { id, first_name, last_name, default_email, birthday, default_avatar_id } = answer;
+    const {
+      id,
+      first_name,
+      last_name,
+      default_email,
+      birthday,
+      default_avatar_id
+    } = answer;
 
     const user = {
       name: `${first_name} ${last_name}`,
       OAuth: {
         ya: {
-          id, first_name, last_name, default_email, birthday, default_avatar_id
+          id,
+          first_name,
+          last_name,
+          default_email,
+          birthday,
+          default_avatar_id
         }
       }
     };
