@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "dev": "node ./node_modules/nodemon/bin/nodemon ./bin/www",
-    "test": "node ./node_modules/eslint/bin/eslint.js . & node ./node_modules/pug-lint/bin/pug-lint ."
+    "test": "node ./node_modules/eslint/bin/eslint.js . && node ./node_modules/pug-lint/bin/pug-lint . && node ./node_modules/prettier/bin-prettier.js -c . && echo All tests ok."
   },
   "engines": {
     "node": "^14.15.1"
