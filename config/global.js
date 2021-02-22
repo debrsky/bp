@@ -1,6 +1,9 @@
 module.exports = {
+  app: {
+    origin: null
+  },
   session: {
-    name: 'sessionId',
+    name: 'sId',
     secret: process.env.SESSION_SECRET
   },
   auth: {
@@ -11,13 +14,19 @@ module.exports = {
     },
     vk: {
       client_id: process.env.VK_CLIENT_ID,
-      client_secret: process.env.VK_CLIENT_SECRET,
-      redirect_uri: 'https://local.debrsky.ru/auth/vk'
+      client_secret: process.env.VK_CLIENT_SECRET
     },
     ya: {
       client_id: process.env.YA_CLIENT_ID,
-      client_secret: process.env.YA_CLIENT_SECRET,
-      redirect_uri: 'https://local.debrsky.ru/auth/ya'
+      client_secret: process.env.YA_CLIENT_SECRET
+    },
+    mailru: {
+      client_id: process.env.MAILRU_CLIENT_ID,
+      client_secret: process.env.MAILRU_CLIENT_SECRET
+    },
+    google: {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET
     }
   },
   users: {

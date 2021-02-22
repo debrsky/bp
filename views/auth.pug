@@ -11,20 +11,20 @@ block content
   else
     ul
       li
-        a(href=vkURI).
+        a(href="/auth/vk").
           Через ВКонтакте
       li
-        a(href=yaURI) Через Яндекс
+        a(href="/auth/ya") Через Яндекс
       li
-        a() Через Mail.ru
+        a(href="/auth/mailru") Через Mail.ru
       li
-        a() Через Google
+        a(href="/auth/google") Через Google
 
-    form(action="", method="post")
+    form(action="/auth/login", method="post")
       p
         label
           span логин
-          input(type="text", name="login" required)
+          input(type="text", name="username" required)
       p
         label
           span Пароль

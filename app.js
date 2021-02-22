@@ -1,5 +1,4 @@
 const config = require('./config');
-const users = require('./lib/users');
 
 const createError = require('http-errors');
 const express = require('express');
@@ -10,35 +9,7 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const logger = require('morgan');
 
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.use(
-  new LocalStrategy(function (login, password, done) {
-    let user = { name: login, login, password };
-
-    (async () => {
-      user = await users.findUser(user);
-      if (!user || (await users.calcKey(password, user.salt)) !== user.key) {
-        return done(null, false, { message: 'username not found' });
-      }
-      return done(null, user);
-    })().catch((err) => done(err));
-  })
-);
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async function (id, done) {
-  try {
-    const user = await users.findUser({ id });
-    if (!user) throw new Error();
-    return done(null, user);
-  } catch (err) {
-    return done(err);
-  }
-});
+const auth = require('./lib/auth');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -68,47 +39,53 @@ if (!secret) {
 
 app.use(
   session({
-    store: new FileStore({ path: 'storage/sessions' }),
+    store: new FileStore({
+      path: 'storage/sessions',
+      ttl: 60 * 60,
+      reapInterval: 60 * 60,
+      retries: 5
+    }),
     secret,
     resave: true,
+    rolling: true,
     saveUninitialized: false,
-    cookie: { path: '/', httpOnly: true, secure: false, maxAge: null },
-    ttl: 3600,
-    reapInterval: 3600,
-    retries: 5,
+    cookie: {
+      path: '/',
+      httpOnly: true,
+      secure: false,
+      maxAge: 60 * 60 * 1000
+    },
     name: config.session.name
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use((req, res, next) => {
-  if (req.user) {
-    res.locals.user = req.user;
-  }
+  // console.log('BEFORE passport.session() req.session', req.session);
+
   return next();
 });
 
+app.use(auth.passport.initialize());
+app.use(auth.passport.session());
+
+app.use((req, res, next) => {
+  // console.log('===========================================================');
+  // console.log(req.originalUrl);
+  // console.log('AFTER passport.session() req.session', req.session);
+  // console.log(req.user);
+
+  if (req.user) {
+    res.locals.user = req.user;
+  }
+
+  return next();
+});
+
+app.use('/auth', authRouter);
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
-
-app.get('/passport/login', (req, res, next) => {
-  res.render('passport/login');
-});
-app.post(
-  '/passport/login',
-  passport.authenticate('local', {
-    successRedirect: null,
-    failureRedirect: null,
-    failureFlash: false
-  }),
-  (req, res, next) => {
-    res.sendStatus(200);
-  }
-);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

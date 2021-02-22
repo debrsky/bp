@@ -4,22 +4,20 @@ block content
   h1 Профиль пользователя
   if user
     p имя пользователя: #{user.name}
-    -var vk=user.OAuth?.vk
-    if vk
-      article
-        h2 Данные ВКонтакте
-        img(src=vk.photoUri, alt=user.name)
-        p Фамилия: #{vk.first_name}
-        p Имя: #{vk.last_name}
-        p email: #{vk.email}
-    -var ya=user.OAuth?.ya
-    if ya
-      article
-        h2 Данные Yandex
-        img(src="https://avatars.yandex.net/get-yapic/" + ya.default_avatar_id + "/islands-200", alt=user.name)
-        p Фамилия: #{ya.first_name}
-        p Имя: #{ya.last_name}
-        p email: #{ya.default_email}
+    each provider in ['vk', 'ya', 'mailru', 'google']
+      -var providerData=user.OAuth && user.OAuth[provider]
+      if providerData
+        article
+          h2 Данные #{provider}
+          if providerData.photos
+            each photo in providerData.photos
+              img(src=photo.value, alt=photo.type)
+          p Фамилия: #{providerData.name.familyName}
+          p Имя: #{providerData.name.givenName}
+          p
+            each email in providerData.emails
+              span #{email.value}
+
     pre #{JSON.stringify(user, null, 4)}
 
   else
