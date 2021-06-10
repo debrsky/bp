@@ -43,7 +43,7 @@ app.use(
       path: 'storage/sessions',
       ttl: 60 * 60,
       reapInterval: 60 * 60,
-      retries: 5
+      retries: 1
     }),
     secret,
     resave: true,
