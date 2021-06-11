@@ -2,6 +2,11 @@
 
 require('dotenv').config();
 
+const path = require('path');
+process.rootDir = path.resolve(__dirname, '../');
+console.log(`Root directory = ${process.rootDir}`);
+console.log(`Current working directory = ${process.cwd()}`);
+
 /**
  * Module dependencies.
  */

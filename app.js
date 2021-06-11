@@ -11,10 +11,7 @@ const logger = require('morgan');
 
 const auth = require('./lib/auth');
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
-const authRouter = require('./routes/auth');
-const profileRouter = require('./routes/profile');
+require('./lib/watch');
 
 const app = express();
 app.use(responseTime());
@@ -81,11 +78,20 @@ app.use((req, res, next) => {
   return next();
 });
 
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const authRouter = require('./routes/auth');
+const profileRouter = require('./routes/profile');
+const svelteRouter = require('./routes/svelte');
+
 app.use('/auth', authRouter);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/profile', profileRouter);
+app.use('/svelte', svelteRouter);
+
+app.use('/sse', require('./routes/sse'));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
